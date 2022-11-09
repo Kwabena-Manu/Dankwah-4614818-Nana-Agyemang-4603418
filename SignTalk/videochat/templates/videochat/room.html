@@ -1,0 +1,407 @@
+{% extends 'videochat/layout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="bg-gray-100  hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
+bg-yellow-100 hover:bg-yellow-800 focus:outline-none mr-4'bg-gray-100 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
+bg-red-700 hover:bg-red-800 focus:outline-none text-white
+bg-yellow-100 hover:bg-yellow-800 focus:outline-none mr-4
+bg-red-700 hover:bg-red-800 focus:outline-none text-white
+inline mr-2 w-4 h-4 text-gray-200 animate-spin dark:text-gray-600
+font-semibold
+font-medium
+">
+
+</div>
+<form action="" class="w-fit bg-gray-50 mx-auto border border-blue-600 shadow-lg rounded-2xl pt-4 m-3">
+   <div class="grid md:grid-cols-3  md:gap-4">
+      <div class="relative z-0 mb-6 ml-10 w-full group">
+          <input type="text" name="floating_first_name" id="patientname" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+          <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+            Name
+         </label> 
+      </div>
+      <div class="relative z-0 mb-6 ml-20 w-full group">
+          <input type="text" name="floating_last_name" id="doctorid" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+          <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+            Doctor's ID
+         </label>
+      </div>
+      <div class="relative z-0 ml-20 w-full group ">
+         <button id="btn-join" type="submit" class="mt-1  text-gray-900 bg-gray-100 hover:bg-blue-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" >
+            Start Call
+         </button>
+      </div>
+    </div>
+</form>
+
+<div class="grid grid-cols-3">
+   <div class="col-span-2">
+      <main class="">
+
+
+
+        
+          
+                  
+          
+ 
+ <div id="popup-modal" tabindex="-1" class="hidden  overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full justify-center items-center" aria-hidden="true">
+     <div class="relative  p-4 w-full max-w-4xl h-full md:h-auto">
+         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+             <button id="modal-button" type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="popup-modal">
+                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                 <span class="sr-only">Close modal</span>
+             </button>
+             <div class="p-6  text-center">
+                  <img id="server-frame"  style="width: 800px; height: 550px;" >
+             </div>
+         </div>
+     </div>
+ </div>
+ 
+
+
+
+
+
+
+         <section id="video-streams">
+            <div class="video-container" id="user-container-local">
+               <div class="video-player" id="user-local">
+                  <video autoplay="" id="local-video" style="width: auto; min-width: 100%; height: 100%;"></video>
+               </div>
+               <div class="username-wrapper">
+                  <span class="user-name">
+                     Local
+                  </span>
+               </div>
+            </div>
+            <div class="video-container hidden" id="user-container-remote">
+               <div class="video-player" id="user-remote">
+                  <video autoplay="" id="remote-video" style="width: auto; min-width: 100%; height: 100%;"></video>
+               </div>
+               <div class="username-wrapper">
+                  <span class="user-name">
+                     Remote
+                  </span>
+               </div>
+            </div>
+
+         </section>
+
+         <section id="controls-wrapper" class="">
+            {% comment %} <div class="icon-wrapper justify-center flex backdrop-blur-md bg-white/30 my-auto" id="mic-btn">
+               <!-- <img class="control-icon fill-blue-500" id="mic-btn" src="{% static 'images/microphone.svg' %}" /> -->
+               <i class="fa fa-microphone-slash control-icon my-auto"></i>
+            </div> {% endcomment %}
+            <div class="justify-center flex backdrop-blur-md end-call bg-white/30 my-auto mr-8 " id="trans-btn">
+               <!-- <img class="control-icon fill-blue-500 my-auto"  src="{% static 'images/leave.svg' %}" /> -->
+               {% comment %} <i class="fa-solid fa-phone-slash control-icon my-auto"></i> {% endcomment %}
+               <i class="fa-sharp fa-solid fa-hands-asl-interpreting  control-icon my-auto "></i>
+            </div>
+
+            {% comment %} <div class="icon-wrapper justify-center flex backdrop-blur-md bg-white/30 my-auto" id="camera-btn">
+               <!-- <img class="control-icon fill-blue-500" id="camera-btn" src="{% static 'images/video.svg' %}" /> -->
+               <i class="fa fa-video-camera control-icon my-auto "></i>
+            </div> {% endcomment %}
+
+            <!-- <div class="icon-wrapper justify-center flex backdrop-blur-md bg-white/30">
+               <img class="control-icon m-t-4  fill-blue-500 my-auto " id="" src="{% static 'images/chat-icon.png' %}" />
+            </div> -->
+         </section>
+      </main>
+   </div>
+
+
+
+   <div class="shadow-lg">
+      <div
+         class="flex-1 p:2 sm:p-6 border border-blue-600 justify-between flex bg-white rounded-xl flex-col h-screen chatboxContainer mr-3">
+         <div class="flex sm:items-center justify-between  border-b-2 border-gray-200">
+            <div class="relative flex items-center space-x-4">
+               <!-- <div class="relative">
+                  <span class="absolute text-green-500 right-0 bottom-0">
+                     <svg width="20" height="20">
+                        <circle cx="8" cy="8" r="8" fill="currentColor"></circle>
+                     </svg>
+                  </span>
+                  <img
+                     src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+                     alt="" class="w-10 sm:w-16 h-10 sm:h-16 rounded-full">
+               </div> -->
+               <div class="flex flex-col leading-tight">
+                  <div class="text-2xl mt-1 flex items-center">
+                     <span id="doctorName" class="text-gray-600 mr-3">Doctor</span>
+                  </div>
+                  <span class="text-lg text-gray-500">Doctor</span>
+               </div>
+            </div>
+
+         </div>
+
+
+
+         <div id="messages" class="flex content-start h-full flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
+            {% comment %} <div class="chat-message">
+               <div class="flex items-end">
+                  <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
+                     <div><span class="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600">Can
+                           be verified on any platform using docker</span></div>
+                  </div>
+
+                  <div class="overflow-hidden relative w-5 h-5 bg-white-100 order-1 rounded-full border border-gray-300 dark:bg-gray-600">
+                     <svg class="absolute -left-[0.1em]  w-5 h-5  text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                           clip-rule="evenodd"></path>
+                     </svg>
+                  </div>
+
+               </div>
+            </div>
+            <div class="chat-message">
+               <div class="flex items-end justify-end">
+                  <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
+                     <div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">Your
+                           error message says permission denied, npm global installs must be given root
+                           privileges.</span></div>
+                  </div>
+                  <div class="overflow-hidden relative w-5 h-5 bg-white-100 order-2 rounded-full border border-gray-300 dark:bg-gray-600">
+                     <svg class="absolute -left-[0.09em]  w-5 h-5  text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                           clip-rule="evenodd"></path>
+                     </svg>
+                  </div>
+               </div>
+            </div>
+            <div class="chat-message">
+               <div class="flex items-end">
+                  <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
+                     <div><span class="px-4 py-2 rounded-lg inline-block bg-gray-300 text-gray-600">Command was run with
+                           root privileges. I'm sure about that.</span></div>
+                     <div><span class="px-4 py-2 rounded-lg inline-block bg-gray-300 text-gray-600">I've update the
+                           description so it's more obviously now</span></div>
+                     <div><span class="px-4 py-2 rounded-lg inline-block bg-gray-300 text-gray-600">FYI
+                           https://askubuntu.com/a/700266/510172</span></div>
+                     <div>
+                        <span class="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600">
+                           Check the line above (it ends with a # so, I'm running it as root )
+                           <pre># npm install -g @vue/devtools</pre>
+                        </span>
+                     </div>
+                  </div>
+                  <div class="overflow-hidden relative w-5 h-5 bg-white-100 order-1 rounded-full border border-gray-300 dark:bg-gray-600">
+                     <svg class="absolute -left-[0.1em]  w-5 h-5  text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                           clip-rule="evenodd"></path>
+                     </svg>
+                  </div>
+               </div>
+            </div>
+            <div class="chat-message">
+               <div class="flex items-end justify-end">
+                  <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
+                     <div><span
+                           class="px-4 py-2 rounded-lg inline-block break-words rounded-br-none bg-blue-600 text-white ">Any
+                           updates on this issue? I'm getting the same error when trying to install devtools.
+                           Thanks</span></div>
+                  </div>
+                  <div class="overflow-hidden relative w-5 h-5 bg-white-100 order-2 rounded-full border border-gray-300 dark:bg-gray-600">
+                     <svg class="absolute -left-[0.09em]  w-5 h-5  text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                           clip-rule="evenodd"></path>
+                     </svg>
+                  </div>
+               </div>
+            </div>
+            <div class="chat-message">
+               <div class="flex items-end">
+                  <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
+                     <div><span
+                           class="px-4 py-2 rounded-lg inline-block break-words rounded-bl-none bg-gray-300 text-gray-600">Thanks
+                           for your message David. I thought I'm alone with this issue. Please, ? the issue to support
+                           it :)</span></div>
+                  </div>
+                  <div class="overflow-hidden relative w-5 h-5 bg-white-100 order-1 rounded-full border border-gray-300 dark:bg-gray-600">
+                     <svg class="absolute -left-[0.1em]  w-5 h-5  text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                           clip-rule="evenodd"></path>
+                     </svg>
+                  </div>
+               </div>
+            </div>
+            <div class="chat-message">
+               <div class="flex items-end justify-end">
+                  <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
+                     <div><span class="px-4 py-2 rounded-lg inline-block break-words bg-blue-600 text-white ">Are you
+                           using sudo?</span></div>
+                     <div><span
+                           class="px-4 py-2 rounded-lg inline-block break-words rounded-br-none bg-blue-600 text-white ">Run
+                           this command sudo chown -R `whoami` /Users/{{your_user_profile}}/.npm-global/ then install
+                           the package globally without using sudo</span></div>
+                  </div>
+                  <div class="overflow-hidden relative w-5 h-5 bg-white-100 order-2 rounded-full border border-gray-300 dark:bg-gray-600">
+                     <svg class="absolute -left-[0.09em]  w-5 h-5  text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                           clip-rule="evenodd"></path>
+                     </svg>
+                  </div>
+               </div>
+            </div>
+            <div class="chat-message">
+               <div class="flex items-end">
+                  <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
+                     <div><span class="px-4 py-2 rounded-lg inline-block bg-gray-300 text-gray-600">It seems like you
+                           are from Mac OS world. There is no /Users/ folder on linux ?</span></div>
+                     <div><span class="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600">I
+                           have no issue with any other packages installed with root permission globally.</span></div>
+                  </div>
+                  <div class="overflow-hidden relative w-5 h-5 bg-white-100 order-1 rounded-full border border-gray-300 dark:bg-gray-600">
+                     <svg class="absolute -left-[0.1em]  w-5 h-5  text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                           clip-rule="evenodd"></path>
+                     </svg>
+                  </div>
+               </div>
+            </div>
+            <div class="chat-message">
+               <div class="flex items-end justify-end">
+                  <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
+                     <div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">yes, I
+                           have a mac. I never had issues with root permission as well, but this helped me to solve the
+                           problem</span></div>
+                  </div>
+                  <div class="overflow-hidden relative w-5 h-5 bg-white-100 order-2 rounded-full border border-gray-300 dark:bg-gray-600">
+                     <svg class="absolute -left-[0.09em]  w-5 h-5  text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                           clip-rule="evenodd"></path>
+                     </svg>
+                  </div>
+               </div>
+            </div>
+            <div class="chat-message">
+               <div class="flex items-end">
+                  <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
+                     <div><span class="px-4 py-2 rounded-lg inline-block bg-gray-300 text-gray-600">I get the same error
+                           on Arch Linux (also with sudo)</span></div>
+                     <div><span class="px-4 py-2 rounded-lg inline-block bg-gray-300 text-gray-600">I also have this
+                           issue, Here is what I was doing until now: #1076</span></div>
+                     <div><span class="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600">even
+                           i am facing</span></div>
+                  </div>
+                  <div class="overflow-hidden relative w-5 h-5 bg-white-100 order-1 rounded-full border border-gray-300 dark:bg-gray-600">
+                     <svg class="absolute -left-[0.1em]  w-5 h-5  text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                           clip-rule="evenodd"></path>
+                     </svg>
+                  </div>
+               </div>
+            </div> {% endcomment %}
+         </div>
+         <div class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
+            <div class="relative flex">
+               <span class="absolute inset-y-0 flex items-center">
+                  <button type="button"
+                     class="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none">
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        id="record-message" class="h-6 w-6 text-gray-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                           d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z">
+                        </path>
+                     </svg>
+                  </button>
+               </span>
+               <input type="text" id="typemsg" placeholder="Write your message"
+                  class="w-full resize focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-full py-3">
+               <div class=" right-0 items-center inset-y-0 hidden sm:flex">
+                  <!-- <button type="button" class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 text-gray-600">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+                        </svg>
+                     </button>
+                     <button type="button" class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 text-gray-600">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                     </button>
+                     <button type="button" class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 text-gray-600">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                     </button> -->
+                  <button type="button" class=" ml-1 pr-1 inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
+                     onclick="sendbtn()">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                        class="h-6 w-6 ml-2 transform rotate-90">
+                        <path
+                           d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z">
+                        </path>
+                     </svg>
+                  </button>
+               </div>
+            </div>
+         </div>
+      </div>
+
+   </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" src="{% static 'js/streams.js' %}"></script>
+<script src="{% static 'feather.min.js' %}"></script>
+
+{% endblock content %}

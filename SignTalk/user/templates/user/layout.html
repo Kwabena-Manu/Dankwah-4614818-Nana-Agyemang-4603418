@@ -1,0 +1,22 @@
+{% load bootstrap4 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}My Chat{% endblock %}</title>
+        {%bootstrap_css%}
+        {%bootstrap_javascript jquery='full'%}
+        {% block script %}
+        {% endblock %}
+        
+    </head>
+    <body>
+        <div class="container">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>
+
+

@@ -1,0 +1,293 @@
+------------------  Global Styling ------------------
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap'); */
+
+
+:root {
+    --shaddow:0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -1px rgba(0,0,0,0.06);
+  }
+
+body{
+    background-color: white;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* img{
+    width: 20px;
+    height: 20px;
+} */
+
+/* ------------------  Register Page ------------------ */
+
+#form-container{
+    width: 400px;
+    box-shadow:var(--shaddow);
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+}
+
+#logo{
+    display: block;
+    width: 100px;
+    margin: 0 auto;
+}
+
+#welcome-message{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#welcome-message h1{
+    font-size: 36px;
+}
+
+
+#welcome-message p{
+    font-size: 16px;
+    color: rgb(97, 98, 105);
+    font-weight: 300;
+}
+
+.form-field{
+    margin-bottom: 20px;
+}
+
+.form-field label{
+    font-size: 16px;
+    line-height: 1.7em;
+}
+
+.form-field input{
+    width: 100%;
+    border:2px solid rgba(198,202,219,1);
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form-field input[type='submit']{
+    background-color: rgb(75, 93, 172);
+    border:none;
+    color: #fff;
+}
+
+
+@media screen and (max-width:450px) {
+    #form-container{
+        width: 95%;
+
+    }
+
+    #welcome-message h1{
+        font-size: 24px;
+    }
+    
+}
+
+
+/* ----------------- Room Styling ------------------*/
+#room-name-wrapper{
+    text-align: center;
+    font-size: 18px;
+}
+
+video{
+    object-fit: cover;
+}
+
+
+
+
+#video-streams{
+    display: flex;
+    flex-wrap: wrap;
+    height: 85vh;
+    width: 95%;
+    margin:0 auto;
+    background-color: transparent;
+
+}
+
+.video-container{
+    flex-basis: 500px;
+    flex-grow: 1;
+    max-height: 100%;
+    min-height: 350px;
+    /* border: 1px solid rgb(75, 93, 172); */
+    border-radius: 15px;
+    margin: 2px;
+    background-color: transparent;
+    position: relative;
+}
+
+.video-player{
+    height: 100%;
+    width: 100%;
+}
+
+.video-player > * {
+    border-radius: 15px;
+}
+
+.username-wrapper{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 40;
+    background-color: rgba(0,0,0,0.3);
+    width: fit-content;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 14px;
+}
+
+@media screen and (max-width:1650px) {
+    .video-container{
+        flex-basis: 300px;
+        min-height: 200px;
+    }
+}
+
+
+/* ----------------- Room Styling | Controls ------------------*/
+
+#controls-wrapper{
+    display: flex;
+    z-index: 2;
+    width: 100%;
+    justify-content: right;
+    column-gap: 1em;
+    position: relative;
+    bottom: 75px;
+}
+
+.icon-wrapper{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+}
+
+.end-call{
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+}
+.control-icon{
+    
+    /* padding: 6px;  */
+    background-color: transparent;
+    /* height: 35px;
+    width: 35px; */
+    cursor: pointer;
+    /* border-radius: 50px; */
+
+}
+#trans-btn{
+    cursor: pointer;
+}
+
+/* #leave-btn{
+    background-color: rgb(255, 80, 80, 1);
+} */
+
+
+/* =========================Chat Box================================= */
+
+#journal-scroll::-webkit-scrollbar {
+    width: 6px;
+    cursor: pointer;
+   
+
+}
+#journal-scroll::-webkit-scrollbar-track {
+    background-color: rgba(229, 231, 235, var(--bg-opacity));
+    cursor: pointer;
+  
+}
+#journal-scroll::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background-color: #a0aec0;
+
+}
+
+
+
+/* ==============chat 2===================== */
+
+
+.scrollbar-w-2::-webkit-scrollbar {
+  width: 0.25rem;
+  height: 0.25rem;
+}
+
+.scrollbar-track-blue-lighter::-webkit-scrollbar-track {
+  --bg-opacity: 1;
+  background-color: #f7fafc;
+  background-color: rgba(247, 250, 252, var(--bg-opacity));
+}
+
+.scrollbar-thumb-blue::-webkit-scrollbar-thumb {
+  --bg-opacity: 1;
+  background-color: #edf2f7;
+  background-color: rgba(237, 242, 247, var(--bg-opacity));
+}
+
+.scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
+  border-radius: 0.25rem;
+}
+
+.messageDiv{
+    width: inherit;
+    max-width: 100%;
+}
+
+.messageSpan{
+width: inherit;
+max-width: inherit;
+}
+	
+
+
+
+
+/* fa fa icons */
+
+.fa, .fa-solid{
+    color: beige;
+    font-size: 25px !important;
+}
+
+/* .fa-microphone::before{
+    padding-left: 3px;
+}
+
+
+.fa-microphone-slash::before{
+    padding-left: 2px;
+} */
+
+
+
+
+.fa.fa-video-camera-slash:after {
+    position: absolute;
+    content: "";
+    left: .8em;
+    top: 0.2em;
+    width: .2em;
+    height: 1.6em;
+    display: block;
+    background: white;
+    transform: rotate(130deg);
+    border-right: .1em solid rgb(86,86,84);
+    border-radius: 4px;
+}
+
+
+
